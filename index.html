@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="beer-bottle.png" type="image/x-icon">
+<title>Realistic Bottle Spin</title>
+<!-- Include Tailwind CSS from CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Center the bottle within the container */
+  #bottle-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+
+  #bottle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%, -50%);
+    transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1); /* Gradual slow down */
+  }
+</style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen font-sans">
+
+<button onclick="spinBottle()" class="text-center space-y-8">
+  <div id="bottle-container" class="flex justify-center items-center">
+    <!-- Bottle image (replace with a bottle PNG image URL) -->
+    <img id="bottle" src="beer-bottle.png" alt="Spinning bottle" class="h-60 w-100 aspect-square bg-blend-multiply mix-blend-multiply">
+  </div>
+  
+  <p class="px-6 py-2 transition">
+    Tap to Spin!
+  </p>
+
+  <div id="result" class="text-xl font-semibold text-gray-800 mt-4"></div>
+</button>
+
+<script>
+  let isSpinning = false;
+
+  function spinBottle() {
+    if (isSpinning) return;  // Prevent multiple spins at the same time
+    isSpinning = true;
+
+    // Calculate a random final angle between 720 and 1440 degrees for several spins
+    const randomAngle = Math.floor(Math.random() * 720) + 720;
+
+    // Apply the rotation to the bottle with a smooth slowdown
+    const bottle = document.getElementById("bottle");
+    bottle.style.transform = `translate(-50%, -50%) rotate(${randomAngle}deg)`;
+
+    // Display result after the spin finishes
+    setTimeout(() => {
+      displayResult(randomAngle);
+      isSpinning = false;
+    }, 1000);  // Match the duration of the CSS transition
+  }
+
+  function displayResult(angle) {
+    const directions = ["Truth","Dare"];
+    const selectedDirection = directions[Math.floor((angle % 360) / 90)];
+    //document.getElementById("result").innerText = selectedDirection;
+  }
+</script>
+
+</body>
+</html>
